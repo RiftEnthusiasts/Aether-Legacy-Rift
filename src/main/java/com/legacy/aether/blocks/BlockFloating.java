@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.legacy.aether.entities.block.EntityFloatingBlock;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,8 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockFloating extends Block
 {
@@ -24,9 +24,9 @@ public class BlockFloating extends Block
 
 	private boolean constantlyPowered;
 
-	public BlockFloating(Builder builder, boolean constantlyPowered)
+	public BlockFloating(Properties builder, boolean constantlyPowered)
 	{
-		super(builder.needsRandomTick());
+		super(((BlockPropertiesInvoker) builder).tickRandomly());
 
 		this.constantlyPowered = constantlyPowered;
 	}
@@ -34,13 +34,13 @@ public class BlockFloating extends Block
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos posIn, IBlockState stateIn, @Nullable EntityLivingBase entityIn, ItemStack itemIn)
 	{
-		worldIn.getPendingBlockTicks().scheduleUpdate(posIn, this, this.tickRate(worldIn));
+		worldIn.getPendingBlockTicks().scheduleTick(posIn, this, this.tickRate(worldIn));
 	}
 
 	@Override
     public IBlockState updatePostPlacement(IBlockState stateIn, EnumFacing facingIn, IBlockState neighborIn, IWorld worldIn, BlockPos posIn, BlockPos neighborPosIn)
     {
-		worldIn.getPendingBlockTicks().scheduleUpdate(posIn, this, this.tickRate(worldIn));
+		worldIn.getPendingBlockTicks().scheduleTick(posIn, this, this.tickRate(worldIn));
 
     	return super.updatePostPlacement(stateIn, facingIn, neighborIn, worldIn, posIn, neighborPosIn);
     }

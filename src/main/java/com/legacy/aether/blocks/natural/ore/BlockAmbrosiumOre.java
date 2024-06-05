@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.legacy.aether.item.ItemsAether;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -22,9 +23,12 @@ public class BlockAmbrosiumOre extends Block
 
 	public BlockAmbrosiumOre()
 	{
-		super(Block.Builder.create(Material.ROCK).hardnessAndResistance(3.0F, 5.0F).sound(SoundType.STONE));
+		super(
+				((BlockPropertiesInvoker) Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 5.0F))
+						.sound(SoundType.STONE)
+		);
 
-		this.setDefaultState(this.getDefaultState().withProperty(DOUBLE_DROP, true));
+		this.setDefaultState(this.getDefaultState().with(DOUBLE_DROP, true));
 	}
 
 	@Override
@@ -44,7 +48,11 @@ public class BlockAmbrosiumOre extends Block
 	{
 		super.dropBlockAsItemWithChance(stateIn, worldIn, posIn, chanceIn, fortuneIn);
 
-		super.dropXpOnBlockBreak(worldIn, posIn, MathHelper.getInt(new Random(), 0, 2));
+		/*
+		TODO:
+		 rollback to super.dropXpOnBlockBreak(worldIn, posIn, MathHelper.getInt(new Random(), 0, 2));
+		 */
+		super.dropXpOnBlockBreak(worldIn, posIn, MathHelper.getInt(new Random().toString(), 0, 2));
 	}
 
 	@Override
@@ -69,7 +77,7 @@ public class BlockAmbrosiumOre extends Block
 
 	public int getItemsToDropCount(IBlockState stateIn, Random randIn)
 	{
-		return stateIn.getValue(DOUBLE_DROP) ? 2 : 1;
+		return stateIn.get(DOUBLE_DROP) ? 2 : 1;
 	}
 
 }

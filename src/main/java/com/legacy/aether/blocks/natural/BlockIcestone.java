@@ -1,5 +1,6 @@
 package com.legacy.aether.blocks.natural;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -13,7 +14,10 @@ public class BlockIcestone extends Block
 
 	public BlockIcestone() 
 	{
-		super(Block.Builder.create(Material.ROCK).hardnessAndResistance(3.0F, -1.0F).sound(SoundType.GLASS));
+		super(
+				((BlockPropertiesInvoker) Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, -1.0F))
+						.sound(SoundType.GLASS)
+		);
 	}
 
 	@Override

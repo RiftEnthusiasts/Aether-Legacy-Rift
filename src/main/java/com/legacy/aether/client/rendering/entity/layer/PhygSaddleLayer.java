@@ -21,7 +21,7 @@ public class PhygSaddleLayer implements LayerRenderer<EntityPhyg>
         this.phygRenderer = phygRendererIn;
     }
 
-    public void doRenderLayer(EntityPhyg entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(EntityPhyg entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         if (entitylivingbaseIn.getSaddled())
         {

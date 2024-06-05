@@ -2,6 +2,7 @@ package com.legacy.aether.blocks.natural;
 
 import java.util.Random;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -19,9 +20,12 @@ public class BlockQuicksoil extends Block
 
 	public BlockQuicksoil()
 	{
-		super(Block.Builder.create(Material.SAND).hardnessAndResistance(0.5F, -1.0F).slipperiness(1.1F).sound(SoundType.SAND));
+		super(
+				((BlockPropertiesInvoker) Block.Properties.create(Material.SAND).hardnessAndResistance(0.5F, -1.0F).slipperiness(1.1F))
+						.sound(SoundType.SAND)
+		);
 
-		this.setDefaultState(this.getDefaultState().withProperty(DOUBLE_DROP, true));
+		this.setDefaultState(this.getDefaultState().with(DOUBLE_DROP, true));
 	}
 
 	@Override
@@ -33,13 +37,13 @@ public class BlockQuicksoil extends Block
 	@Override
 	public IBlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return super.getStateForPlacement(context).withProperty(DOUBLE_DROP, false);
+		return super.getStateForPlacement(context).with(DOUBLE_DROP, false);
 	}
 
 	@Override
 	public int getItemsToDropCount(IBlockState stateIn, int fortuneIn, World worldIn, BlockPos posIn, Random randomIn)
 	{
-		return stateIn.getValue(DOUBLE_DROP) ? 2 : 1;
+		return stateIn.get(DOUBLE_DROP) ? 2 : 1;
 	}
 
 }

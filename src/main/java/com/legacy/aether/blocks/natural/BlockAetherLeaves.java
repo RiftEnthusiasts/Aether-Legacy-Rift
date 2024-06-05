@@ -1,5 +1,6 @@
 package com.legacy.aether.blocks.natural;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.SoundType;
@@ -16,7 +17,11 @@ public class BlockAetherLeaves extends BlockLeaves
 
 	public BlockAetherLeaves()
 	{
-		super(Block.Builder.create(Material.GRASS).needsRandomTick().hardnessAndResistance(0.2F, -1.0F).sound(SoundType.PLANT));
+		super(
+				((BlockPropertiesInvoker) ((BlockPropertiesInvoker) Block.Properties.create(Material.GRASS))
+						.tickRandomly().hardnessAndResistance(0.2F, -1.0F))
+						.sound(SoundType.PLANT)
+		);
 	}
 
 	@Override

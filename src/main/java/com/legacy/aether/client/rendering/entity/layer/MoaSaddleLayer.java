@@ -18,7 +18,7 @@ public class MoaSaddleLayer implements LayerRenderer<EntityMoa>
         this.moaRenderer = moaRendererIn;
     }
 
-    public void doRenderLayer(EntityMoa moa, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(EntityMoa moa, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         if (moa.getSaddled())
         {

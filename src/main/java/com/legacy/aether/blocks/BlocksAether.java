@@ -1,5 +1,7 @@
 package com.legacy.aether.blocks;
 
+import com.legacy.aether.mixin.access.BlockInvoker;
+import com.legacy.aether.mixin.access.ItemInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -160,8 +162,8 @@ public class BlocksAether implements BlockAdder, ItemAdder
 		ambrosium_torch = register("ambrosium_torch", new BlockAmbrosiumTorch());
 		ambrosium_torch_wall = register("ambrosium_wall_torch", new BlockAmbrosiumTorchWall());
 
-		itemBlockList[availableId] = new ItemBlock(ambrosium_torch_wall, new Item.Builder());
-		itemBlockList[availableId - 1] = new ItemWallOrFloor(ambrosium_torch, ambrosium_torch_wall, new Item.Builder());
+		itemBlockList[availableId] = new ItemBlock(ambrosium_torch_wall, new Item.Properties());
+		itemBlockList[availableId - 1] = new ItemWallOrFloor(ambrosium_torch, ambrosium_torch_wall, new Item.Properties());
 
 		aether_portal = register("aether_portal", new BlockAetherPortal());
 
@@ -207,18 +209,18 @@ public class BlocksAether implements BlockAdder, ItemAdder
 
 			if (itemBlock == null)
 			{
-				Item.register(block, ItemGroup.BUILDING_BLOCKS);
+				ItemInvoker.register(block, ItemGroup.BUILDING_BLOCKS);
 			}
 			else
 			{
-				Item.register(block, itemBlock);
+				ItemInvoker.register(block, itemBlock);
 			}
 		}
 	}
 
 	public static Block register(String name, Block block)
 	{
-		Block.register(Aether.locate(name), block);
+		BlockInvoker.register(Aether.locate(name), block);
 
 		blockList[availableId] = block;
 

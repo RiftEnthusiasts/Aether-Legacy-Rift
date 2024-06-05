@@ -1,5 +1,6 @@
 package com.legacy.aether.blocks.decorative;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.SoundType;
@@ -10,7 +11,13 @@ public class BlockAmbrosiumTorch extends BlockTorch
 
 	public BlockAmbrosiumTorch()
 	{
-		super(Block.Builder.create(Material.CIRCUITS).needsRandomTick().lightValue(1).sound(SoundType.WOOD));
+		/* sorry, father, I have sinned... */
+		super(
+				((BlockPropertiesInvoker)((BlockPropertiesInvoker)((BlockPropertiesInvoker) Block.Properties.create(Material.CIRCUITS))
+						.tickRandomly())
+						.lightValue(1))
+						.sound(SoundType.WOOD)
+		);
 	}
 
 }

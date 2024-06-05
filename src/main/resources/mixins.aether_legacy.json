@@ -14,7 +14,11 @@
     "MixinEntityTracker",
     "MixinEntityTrackerEntry",
     "MixinNetHandlerPlayServer",
-    "MixinSPacketCustomPayload"
+    "MixinSPacketCustomPayload",
+    "access.BlockPropertiesInvoker",
+    "access.ItemInvoker",
+    "access.BlockInvoker",
+    "access.SoundEventInvoker"
   ],
   "client": [
     "client.MixinMinecraft",

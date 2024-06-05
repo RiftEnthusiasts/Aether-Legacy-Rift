@@ -26,8 +26,8 @@ public class AetherSurfaceBuilder implements ISurfaceBuilder<AetherSurfaceBuilde
 		int j1 = -1;
         int i1 = (int)(3.0D + random.nextDouble() * 0.25D);
 
-		IBlockState top = config.getTop();
-		IBlockState filler = config.getMiddle();
+		IBlockState top = config.getTopMaterial();
+		IBlockState filler = config.getUnderMaterial();
 
         for (int chunkY = 127; chunkY >= 0; chunkY--)
 		{

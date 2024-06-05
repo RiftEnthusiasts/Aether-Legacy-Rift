@@ -9,13 +9,13 @@ public class AetherSurfaceBuilderConfig implements ISurfaceBuilderConfig
 {
 
 	@Override
-	public IBlockState getMiddle()
+	public IBlockState getUnderMaterial()
 	{
 		return BlocksAether.aether_dirt.getDefaultState();
 	}
 
 	@Override
-	public IBlockState getTop() 
+	public IBlockState getTopMaterial()
 	{
 		return BlocksAether.aether_grass.getDefaultState();
 	}

@@ -68,12 +68,6 @@ public class EntityFloatingBlock extends Entity
     }
 
 	@Override
-	protected void entityInit() 
-	{
-        this.dataManager.register(ORIGIN, BlockPos.ORIGIN);
-	}
-
-	@Override
     public boolean canBeAttackedWithItem()
     {
         return false;
@@ -88,15 +82,15 @@ public class EntityFloatingBlock extends Entity
 	@Override
     public boolean canBeCollidedWith()
     {
-        return !this.isDead;
+        return this.isAlive();
     }
 
 	@Override
-	public void onUpdate()
+	public void tick()
 	{
 		if (this.state.isAir())
 		{
-			this.setDead();
+			this.remove();
 		}
         else
         {
@@ -115,7 +109,7 @@ public class EntityFloatingBlock extends Entity
                 }
                 else if (!this.world.isRemote)
                 {
-                    this.setDead();
+                    this.remove();
                     return;
                 }
             }
@@ -154,7 +148,7 @@ public class EntityFloatingBlock extends Entity
                             this.entityDropItem(block);
                         }
 
-                        this.setDead();
+                        this.remove();
                     }
                 }
                 else
@@ -178,23 +172,23 @@ public class EntityFloatingBlock extends Entity
             if (this.motionY == 0.0F)
             {
             	this.world.setBlockState(new BlockPos(this), this.getBlockstate());
-            	this.setDead();
+            	this.remove();
             }
         }
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound)
+	protected void writeAdditional(NBTTagCompound compound)
 	{
-        compound.setTag("state", NBTUtil.writeBlockState(this.state));
-        compound.setInteger("time", this.floatTime);
+        compound.put("state", NBTUtil.writeBlockState(this.state));
+        compound.putInt("time", this.floatTime);
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) 
+	protected void readAdditional(NBTTagCompound compound)
 	{
-        this.state = NBTUtil.readBlockState(compound.getCompoundTag("state"));
-        this.floatTime = compound.getInteger("time");
+        this.state = NBTUtil.readBlockState(compound.getCompound("state"));
+        this.floatTime = compound.getInt("time");
 
         if (this.state.isAir())
         {
@@ -203,12 +197,12 @@ public class EntityFloatingBlock extends Entity
 	}
 
 	@Override
-    public void addEntityCrashInfo(CrashReportCategory category)
+    public void fillCrashReport(CrashReportCategory category)
     {
-        super.addEntityCrashInfo(category);
+        super.fillCrashReport(category);
 
-        category.addCrashSection("BlockState", this.state.toString());
-        category.addCrashSection("Time Floated", this.floatTime);
+        category.addDetail("BlockState", this.state.toString());
+        category.addDetail("Time Floated", this.floatTime);
     }
 
     public World getWorldObj()
@@ -226,6 +220,11 @@ public class EntityFloatingBlock extends Entity
     public boolean canRenderOnFire()
     {
         return false;
+    }
+
+    @Override
+    protected void registerData() {
+        this.dataManager.register(ORIGIN, BlockPos.ORIGIN);
     }
 
     public IBlockState getBlockstate()

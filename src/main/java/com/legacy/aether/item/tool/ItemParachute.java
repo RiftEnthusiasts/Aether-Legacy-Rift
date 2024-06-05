@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 public class ItemParachute extends Item
 {
 
-	public ItemParachute(Builder builderIn)
+	public ItemParachute(Properties builderIn)
 	{
 		super(builderIn);
 	}

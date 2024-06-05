@@ -2,6 +2,7 @@ package com.legacy.aether.blocks.natural;
 
 import java.util.Random;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -22,9 +23,13 @@ public class BlockAetherGrass extends Block
 
 	public BlockAetherGrass() 
 	{
-		super(Block.Builder.create(Material.GRASS).needsRandomTick().hardnessAndResistance(0.2F, -1.0F).sound(SoundType.PLANT));
+		super(
+				((BlockPropertiesInvoker) ((BlockPropertiesInvoker) Block.Properties.create(Material.GRASS))
+						.tickRandomly().hardnessAndResistance(0.2F, -1.0F))
+						.sound(SoundType.PLANT)
+		);
 
-		this.setDefaultState(this.getDefaultState().withProperty(DOUBLE_DROP, true));
+		this.setDefaultState(this.getDefaultState().with(DOUBLE_DROP, true));
 	}
 
 	@Override
@@ -42,13 +47,13 @@ public class BlockAetherGrass extends Block
 	@Override
 	public IBlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return super.getStateForPlacement(context).withProperty(DOUBLE_DROP, false);
+		return super.getStateForPlacement(context).with(DOUBLE_DROP, false);
 	}
 
 	@Override
 	public int quantityDropped(IBlockState stateIn, Random randIn)
 	{
-		return stateIn.getValue(DOUBLE_DROP) ? 2 : 1;
+		return stateIn.get(DOUBLE_DROP) ? 2 : 1;
 	}
  
 	@Override
@@ -73,8 +78,8 @@ public class BlockAetherGrass extends Block
 
                 if (iblockstate1.getBlock() == BlocksAether.aether_dirt && worldIn.getLight(blockpos.up()) >= 4)
                 {
-                    boolean shouldContainDoubleDrop = iblockstate1.getValue(BlockAetherDirt.DOUBLE_DROP);
-                    worldIn.setBlockState(blockpos, BlocksAether.aether_grass.getDefaultState().withProperty(DOUBLE_DROP, shouldContainDoubleDrop));
+                    boolean shouldContainDoubleDrop = iblockstate1.get(BlockAetherDirt.DOUBLE_DROP);
+                    worldIn.setBlockState(blockpos, BlocksAether.aether_grass.getDefaultState().with(DOUBLE_DROP, shouldContainDoubleDrop));
                 	return;
                 }
 			}

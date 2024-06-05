@@ -1,5 +1,6 @@
 package com.legacy.aether.blocks.decorative;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.SoundType;
@@ -14,7 +15,7 @@ public class BlockAerogel extends BlockBreakable
 
 	public BlockAerogel()
 	{
-		super(Block.Builder.create(Material.ROCK).hardnessAndResistance(1.0F, 2000.0F).sound(SoundType.METAL));
+		super(((BlockPropertiesInvoker) Properties.create(Material.ROCK).hardnessAndResistance(1.0F, 2000.0F)).sound(SoundType.METAL));
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class BlockColoredAercloud extends BlockAercloud
 
 	public int getColor()
 	{
-		return this.color.func_196060_f();
+		return this.color.func_196057_c();
 	}
 
 }

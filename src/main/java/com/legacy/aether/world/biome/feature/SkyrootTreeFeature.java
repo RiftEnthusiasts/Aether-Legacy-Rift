@@ -53,7 +53,7 @@ public class SkyrootTreeFeature extends AetherTreeFeature
 
             if (state.isAir() || this.canGrowInto(state.getBlock()))
             {
-        		this.func_208520_a(posListIn, worldIn, posIn.up(l1), BlocksAether.skyroot_log.getDefaultState());
+        		this.setLogState(posListIn, worldIn, posIn.up(l1), BlocksAether.skyroot_log.getDefaultState());
             }
         }
 

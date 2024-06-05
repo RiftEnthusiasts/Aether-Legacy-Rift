@@ -1,64 +1,77 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven { url 'https://www.dimdev.org/maven/' }
-        maven { url 'https://plugins.gradle.org/m2/' }
-        maven { url 'http://repo.spongepowered.org/maven' }
-    }
-    dependencies {
-        classpath 'org.dimdev:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'gradle.plugin.com.github.breadmoirai:github-release:2.0.1'
-        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
-    }
+plugins {
+    id 'java'
+    id 'xyz.wagyourtail.unimined' version '1.2.7-SNAPSHOT'
 }
-
-apply plugin: 'net.minecraftforge.gradle.tweaker-client'
-apply plugin: 'java'
-apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'maven-publish'
-apply plugin: 'com.github.breadmoirai.github-release'
 
 group 'com.legacy.aether'
 version '1.0.1'
-archivesBaseName = 'aether_legacy'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+base {
+    archivesBaseName = 'aether_legacy'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 repositories {
     mavenCentral()
-    maven { url 'https://libraries.minecraft.net/' }
-    maven { url 'https://www.dimdev.org/maven/' }
+    maven {
+        url = "https://maven.neoforged.net/releases"
+    }
+    maven {
+        url = "https://maven.minecraftforge.net/"
+    }
+    maven {
+        url = "https://maven.fabricmc.net/"
+    }
+    maven {
+        url = "https://maven.wagyourtail.xyz/releases"
+    }
+    maven {
+        url = "https://maven.wagyourtail.xyz/snapshots"
+    }
+    gradlePluginPortal() {
+        content {
+            excludeGroup("org.apache.logging.log4j")
+        }
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
+unimined.minecraft {
+    version "1.13.2"
 
-configurations {
-    ecj
-}
+    // Fix duplicated class crash
+    minecraftData.metadataURL = URI.create("https://skyrising.github.io/mc-versions/manifest/f/f/8444b7446a793191e0c496bba07ac41ff17031/1.13.2.json")
 
-dependencies {
-    ecj 'org.eclipse.jdt.core.compiler:ecj:4.6.1'
-    implementation 'org.dimdev:rift:1.0.4-66:dev'
-    implementation('net.minecraft:launchwrapper:1.12') { transitive = false }
-    implementation 'org.ow2.asm:asm:6.2'
-    implementation 'org.ow2.asm:asm-commons:6.2'
-}
+    mappings {
+        searge()
+        mcp("snapshot", "20190311-1.13.2")
+    }
 
-compileJava {
-    options.fork = true
-    options.forkOptions.with {
-        executable = 'java'
-        jvmArgs = ['-classpath', project.configurations.ecj.asPath, 'org.eclipse.jdt.internal.compiler.batch.Main', '-nowarn']
+    rift {
+
+    }
+
+    minecraftRemapper.config {
+        ignoreConflicts(true)
     }
 }
 
-minecraft {
-    version = '1.13'
-    mappings = 'snapshot_20180823'
-    runDir = 'run'
-    tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderClientTweaker'
+repositories {
 }
 
-mixin {
-    defaultObfuscationEnv notch
-    add sourceSets.main, 'mixins.aether_legacy.refmap.json'
+dependencies {
+    modImplementation "maven.modrinth:rift-mod-list:2.1.0b"
 }

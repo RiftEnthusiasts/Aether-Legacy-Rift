@@ -2,6 +2,7 @@ package com.legacy.aether.blocks.natural.ore;
 
 import java.util.Random;
 
+import com.legacy.aether.mixin.access.BlockPropertiesInvoker;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -18,7 +19,10 @@ public class BlockZaniteOre extends Block
 
 	public BlockZaniteOre()
 	{
-		super(Block.Builder.create(Material.ROCK).hardnessAndResistance(3.0F, 5.0F).sound(SoundType.STONE));
+		super(
+                ((BlockPropertiesInvoker) Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 5.0F))
+                        .sound(SoundType.STONE)
+        );
 	}
 
 	@Override
@@ -32,7 +36,11 @@ public class BlockZaniteOre extends Block
 	{
 		super.dropBlockAsItemWithChance(stateIn, worldIn, posIn, chanceIn, fortuneIn);
 
-		super.dropXpOnBlockBreak(worldIn, posIn, MathHelper.getInt(new Random(), 3, 5));
+        /*
+		TODO:
+		 rollback to super.dropXpOnBlockBreak(worldIn, posIn, MathHelper.getInt(new Random(), 3, 5));
+		 */
+		super.dropXpOnBlockBreak(worldIn, posIn, MathHelper.getInt(new Random().toString(), 3, 5));
 	}
 
 	@Override
